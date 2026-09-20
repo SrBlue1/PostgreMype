@@ -19,10 +19,11 @@ CREATE TABLE IF NOT EXISTS public.comerciante
     nombre_comcercial character varying(150) NOT NULL,
     razon_social character varying(150) NOT NULL,
     telefono character varying(9) NOT NULL,
-    fecha_registro timestamp without time zone DEFAULT now(),
+    fecha_registro timestamp without time zone NOT NULL DEFAULT now(),
     PRIMARY KEY (id_comerciante),
     CONSTRAINT telefono_uq UNIQUE (telefono),
-    CONSTRAINT razon_uq UNIQUE (razon_social)
+    CONSTRAINT razon_uq UNIQUE (razon_social),
+    CONSTRAINT ruc_uq UNIQUE (ruc)
 );
 
 CREATE TABLE IF NOT EXISTS public.configuracion
@@ -30,7 +31,7 @@ CREATE TABLE IF NOT EXISTS public.configuracion
     id_configuracion integer NOT NULL GENERATED ALWAYS AS IDENTITY,
     moneda character varying(3) NOT NULL DEFAULT 'PEN',
     igv_porcentaje numeric(4, 2) NOT NULL,
-    comerciante_id_comerciante integer,
+    comerciante_id_comerciante integer NOT NULL,
     PRIMARY KEY (id_configuracion),
     UNIQUE (comerciante_id_comerciante)
 );
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS public.suscripcion
     fecha_inicio date NOT NULL DEFAULT now(),
     fecha_fin date NOT NULL,
     estado_pago character varying(20) NOT NULL,
-    comerciante_id_comerciante integer,
+    comerciante_id_comerciante integer NOT NULL,
     PRIMARY KEY (id_suscripcion)
 );
 
